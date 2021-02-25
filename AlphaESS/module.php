@@ -8,7 +8,7 @@ class ALPHAESS extends IPSModule
     public function Create()
     {
         parent::Create();
-        //$this->ConnectParent("{A5F663AB-C400-4FE5-B207-4D67CC030564}");
+        $this->ConnectParent("{A5F663AB-C400-4FE5-B207-4D67CC030564}");
         $this->RegisterPropertyInteger("Interval", 0);
 	      $this->RegisterPropertyBoolean("TemperatureInput1", false);
         $this->RegisterPropertyBoolean("TemperatureInput2", false);
