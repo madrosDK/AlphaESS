@@ -20,8 +20,8 @@ class ALPHAESS extends IPSModule
                 IPS_SetVariableProfileDigits("Cos.Phi", 2);
                 IPS_SetVariableProfileText("Cos.Phi", "", "");
             }
-/*	if (!IPS_VariableProfileExists("ALPHAESS.Rotation")){
-                IPS_CreateVariableProfile("ALPHAESS_Rotation", 1);
+	if (!IPS_VariableProfileExists("ALPHAESS.Rotation")){
+                IPS_CreateVariableProfile("ALPHAESS.Rotation", 1);
                 IPS_SetVariableProfileAssociation("ALPHAESS.Rotation", -1, "Links", "", -1);
                 IPS_SetVariableProfileAssociation("ALPHAESS.Rotation", 0, "None", "", -1);
                 IPS_SetVariableProfileAssociation("ALPHAESS.Rotation", 1, "Rechts", "", -1);
