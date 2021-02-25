@@ -12,7 +12,7 @@ class ALPHAESS extends IPSModule
         $this->RegisterPropertyInteger("Interval", 0);
 	$this->RegisterPropertyBoolean("TemperatureInput1", false);
 	$this->RegisterPropertyBoolean("TemperatureInput2", false);
-        $this->RegisterTimer("UpdateTimer", 0, "UMG96_RequestRead(\$_IPS['TARGET']);");
+        $this->RegisterTimer("UpdateTimer", 0, "ALPHAESS_RequestRead(\$_IPS['TARGET']);");
 	//Profil
 
 	if (!IPS_VariableProfileExists("Cos.Phi")){
@@ -20,11 +20,11 @@ class ALPHAESS extends IPSModule
                 IPS_SetVariableProfileDigits("Cos.Phi", 2);
                 IPS_SetVariableProfileText("Cos.Phi", "", "");
             }
-	if (!IPS_VariableProfileExists("ALPHAESS_Rotation")){
+	if (!IPS_VariableProfileExists("ALPHAESS.Rotation")){
                 IPS_CreateVariableProfile("ALPHAESS_Rotation", 1);
-                IPS_SetVariableProfileAssociation("ALPHAESS_Rotation", -1, "Links", "", -1);
-                IPS_SetVariableProfileAssociation("ALPHAESS_Rotation", 0, "None", "", -1);
-                IPS_SetVariableProfileAssociation("ALPHAESS_Rotation", 1, "Rechts", "", -1);
+                IPS_SetVariableProfileAssociation("ALPHAESS.Rotation", -1, "Links", "", -1);
+                IPS_SetVariableProfileAssociation("ALPHAESS.Rotation", 0, "None", "", -1);
+                IPS_SetVariableProfileAssociation("ALPHAESS.Rotation", 1, "Rechts", "", -1);
             }
 	if (!IPS_VariableProfileExists("Scheinleistung")){
          	IPS_CreateVariableProfile("Scheinleistung", 2);
@@ -88,7 +88,7 @@ class ALPHAESS extends IPSModule
 	$this->RegisterVariableFloat("CosPhiL2", "Cos Phi L2", "Cos.Phi", 10);
 	$this->RegisterVariableFloat("CosPhiL3", "Cos Phi L3", "Cos.Phi", 10);
 
-	$this->RegisterVariableInteger("Drehfeld", "Drehfeld", "ALPHAESS_Rotation", 11);
+	$this->RegisterVariableInteger("Drehfeld", "Drehfeld", "ALPHAESS.Rotation", 11);
 
 	$this->RegisterVariableFloat("ScheinleistungL1", "Scheinleistung L1", "Scheinleistung", 12);
 	$this->RegisterVariableFloat("ScheinleistungL2", "Scheinleistung L2", "Scheinleistung", 12);
