@@ -10,8 +10,8 @@ class ALPHAESS extends IPSModule
         parent::Create();
         $this->ConnectParent("{A5F663AB-C400-4FE5-B207-4D67CC030564}");
         $this->RegisterPropertyInteger("Interval", 0);
-	$this->RegisterPropertyBoolean("TemperatureInput1", false);
-	$this->RegisterPropertyBoolean("TemperatureInput2", false);
+	      $this->RegisterPropertyBoolean("TemperatureInput1", false);
+        $this->RegisterPropertyBoolean("TemperatureInput2", false);
         $this->RegisterTimer("UpdateTimer", 0, "ALPHAESS_RequestRead(\$_IPS['TARGET']);");
 	//Profil
 
