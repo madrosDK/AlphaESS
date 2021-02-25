@@ -1,0 +1,11 @@
+
+{
+	"elements":
+	[
+		{ "name": "Interval", "type": "IntervalBox", "caption": "milliseconds" },
+		{ "type": "Label", "label": "Other parameters" },
+		{ "type": "CheckBox", "name": "TemperatureInput1", "caption": "Temperature input 1" },
+		{ "type": "CheckBox", "name": "TemperatureInput2", "caption": "Temperature input 2" }
+
+	]
+}
