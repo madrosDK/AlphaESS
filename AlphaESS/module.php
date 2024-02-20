@@ -2,6 +2,12 @@
 
 require_once __DIR__.'/../libs/functions.php';  // globale Funktionen
 
+// Modul Prefix
+if (!defined('MODUL_PREFIX'))
+{
+	define("MODUL_PREFIX", "AlphaESS");
+	define("MODUL_ID", "{9F369381-377D-575E-FCAE-4AB146115F50}");
+}
 // Offset von Register (erster Wert 1) zu Adresse (erster Wert 0) ist -1
 if (!defined('MODBUS_REGISTER_TO_ADDRESS_OFFSET'))
 {
