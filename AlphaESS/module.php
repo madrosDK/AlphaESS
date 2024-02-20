@@ -62,6 +62,24 @@ class ALPHAESS extends IPSModule
                 IPS_SetVariableProfileText("Blindleistung", "", " var");
             }
     }
+
+    public function GetConfigurationForm()
+{
+  $libraryJson = @IPS_GetLibrary(MODUL_ID);
+
+  $headline = MODUL_PREFIX." Modul";
+  if(isset($libraryJson['Version']))
+  {
+    $headline .= " v".$libraryJson['Version'];
+  }
+
+  if(isset($libraryJson['Date']) && 0 != $libraryJson['Date'])
+  {
+    $headline .= " (".$libraryJson['Date'].")";
+  }
+}
+
+
     public function ApplyChanges()
     {
         parent::ApplyChanges();
