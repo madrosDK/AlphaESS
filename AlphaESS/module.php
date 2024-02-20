@@ -142,7 +142,7 @@ class ALPHAESS extends IPSModule
 	//Spannung L1-L2, L2-L3, L3-L1
          for ($index = 0; $index < 3; $index++)
         {
-            $Volt = $this->SendDataToParent(json_encode(Array("DataID" => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", "Function" => 3, "Address" => 19006 + ($index * 2), "Quantity" => 2, "Data" => "")));
+            $Volt = $this->SendDataToParent(json_encode(Array("DataID" => "\$parentId = IPS_GetObjectIDByIdent(\"", "Function" => 3, "Address" => 19006 + ($index * 2), "Quantity" => 2, "Data" => "")));
             if ($Volt === false)
             {
                 $this->unlock($IO);
