@@ -1,4 +1,28 @@
 <?
+
+require_once __DIR__.'/../libs/functions.php';  // globale Funktionen
+
+// Offset von Register (erster Wert 1) zu Adresse (erster Wert 0) ist -1
+if (!defined('MODBUS_REGISTER_TO_ADDRESS_OFFSET'))
+{
+	define("MODBUS_REGISTER_TO_ADDRESS_OFFSET", -1);
+}
+
+// ArrayOffsets
+if (!defined('IMR_START_REGISTER'))
+{
+	define("IMR_START_REGISTER", 0);
+//	define("IMR_END_REGISTER", 3);
+	define("IMR_SIZE", 1);
+	define("IMR_RW", 2);
+	define("IMR_FUNCTION_CODE", 3);
+	define("IMR_NAME", 4);
+	define("IMR_DESCRIPTION", 5);
+	define("IMR_TYPE", 6);
+	define("IMR_UNITS", 7);
+	define("IMR_SF", 8);
+}
+
 class ALPHAESS extends IPSModule
 {
     public function __construct($InstanceID)
@@ -8,7 +32,8 @@ class ALPHAESS extends IPSModule
     public function Create()
     {
         parent::Create();
-        //$this->ConnectParent("{A5F663AB-C400-4FE5-B207-4D67CC030564}");
+        $this->RegisterPropertyBoolean('active', 'true');
+  			$this->RegisterPropertyString('hostIp', '');
         $this->RegisterPropertyInteger("Interval", 0);
 	      $this->RegisterPropertyBoolean("TemperatureInput1", false);
         $this->RegisterPropertyBoolean("TemperatureInput2", false);
