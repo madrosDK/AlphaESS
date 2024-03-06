@@ -19,7 +19,6 @@
                     "name": "Ident",
                     "visible": true,
                     "width": "10px",
-                    "edit": true,
                     "save": true
                 },
                 {
