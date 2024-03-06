@@ -141,7 +141,7 @@ class AlphaESS extends IPSModule
             return false;
         }
         $Result = $this->ReadData();
-        IPS_Sleep(333);
+        //IPS_Sleep(333);
         $this->unlock($IO);
         return $Result;
     }

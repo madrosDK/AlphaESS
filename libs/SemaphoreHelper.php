@@ -15,7 +15,7 @@ declare(strict_types=1);
  *
  */
 
-namespace BGETech;
+namespace AlphaESS;
 
 /**
  * Biete Funktionen um Thread-Safe auf Objekte zuzugreifen.
