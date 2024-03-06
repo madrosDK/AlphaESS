@@ -1,0 +1,15 @@
+{
+    "id": "{55A22675-EC15-6959-B1ED-1889FF807B54}",
+    "name": "AlphaESS Hi10",
+    "type": 3,
+    "vendor": "AlphaESS",
+    "aliases":
+	[
+		"AlphaESS"
+	],
+    "url": "https://github.com/madrosDK/AlphaESS",
+    "parentRequirements": ["{A5F663AB-C400-4FE5-B207-4D67CC030564}"],
+    "childRequirements": [],
+    "implemented": ["{77B31ABB-18FA-4B91-BB63-E5B2AB5588F4}"],
+    "prefix": "ALPHAESS"
+}

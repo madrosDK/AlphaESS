@@ -31,18 +31,14 @@ if (!defined('IMR_START_REGISTER'))
 
 class ALPHAESS extends IPSModule
 {
-    public function __construct($InstanceID)
-    {
-        parent::__construct($InstanceID);
-    }
+		//use myFunctions; erst aktivieren sobald Funktionen implementiert wurden
+
     public function Create()
     {
         parent::Create();
         $this->RegisterPropertyBoolean('active', 'true');
   			$this->RegisterPropertyString('hostIp', '');
         $this->RegisterPropertyInteger("Interval", 0);
-	      $this->RegisterPropertyBoolean("TemperatureInput1", false);
-        $this->RegisterPropertyBoolean("TemperatureInput2", false);
         $this->RegisterTimer("UpdateTimer", 0, "ALPHAESS_RequestRead(\$_IPS['TARGET']);");
 	//Profil
 
