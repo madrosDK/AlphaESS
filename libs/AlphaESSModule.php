@@ -15,7 +15,7 @@ declare(strict_types=1);
  *
  */
 require_once __DIR__ . '/SemaphoreHelper.php';  // diverse Klassen
-eval('declare(strict_types=1);namespace BGETech {?>' . file_get_contents(__DIR__ . '/helper/VariableProfileHelper.php') . '}');
+eval('declare(strict_types=1);namespace AlphaESS {?>' . file_get_contents(__DIR__ . '/helper/VariableProfileHelper.php') . '}');
 
 /**
  * BGETech ist die Basisklasse für alle Energie-Zähler der Firma B+G E-Tech
