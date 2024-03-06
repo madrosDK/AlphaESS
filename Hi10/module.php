@@ -39,6 +39,6 @@ class HI10 extends AlphaESS
         ['Total export reactive energy', VARIABLETYPE_FLOAT, 'kVArh', 0x004E, 4, 2, true],
         ['Total active energy', VARIABLETYPE_FLOAT, 'Electricity', 0x0156, 4, 2, true],
         ['Total active energy', VARIABLETYPE_FLOAT, 'Electricity', 0x0156, 4, 2, true],
-        ['PV1 power', VARIABLETYPE_FLOAT, 'Watt.14490', 0x041F, 4, 2, true]
+        ['PV1 power', VARIABLETYPE_FLOAT, 'Watt.14490', 0x041F, 3, 2, true]
     ];
 }
