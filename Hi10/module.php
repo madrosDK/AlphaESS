@@ -25,7 +25,7 @@ class HI10 extends AlphaESS
     const PREFIX = 'AlphaESS';
 
     public static $Variables = [
-        ['Voltage', VARIABLETYPE_FLOAT, 'Volt.230', 0x0000, 4, 2, true],
+        /*['Voltage', VARIABLETYPE_FLOAT, 'Volt.230', 0x0000, 4, 2, true],
         ['Current', VARIABLETYPE_FLOAT, 'Ampere', 0x0006, 4, 2, true],
         ['Active power', VARIABLETYPE_FLOAT, 'Watt.14490', 0x000C, 4, 2, true],
         ['Apparent power', VARIABLETYPE_FLOAT, 'VA', 0x0012, 4, 2, true],
@@ -38,7 +38,7 @@ class HI10 extends AlphaESS
         ['Total import reactive energy', VARIABLETYPE_FLOAT, 'kVArh', 0x004C, 4, 2, true],
         ['Total export reactive energy', VARIABLETYPE_FLOAT, 'kVArh', 0x004E, 4, 2, true],
         ['Total active energy', VARIABLETYPE_FLOAT, 'Electricity', 0x0156, 4, 2, true],
-        ['Total active energy', VARIABLETYPE_FLOAT, 'Electricity', 0x0156, 4, 2, true],
+        ['Total active energy', VARIABLETYPE_FLOAT, 'Electricity', 0x0156, 4, 2, true], */
         ['PV1 power', VARIABLETYPE_FLOAT, 'Watt.14490', 0x041F, 3, 2, true]
     ];
 }
