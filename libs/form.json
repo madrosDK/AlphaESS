@@ -93,6 +93,6 @@
             "type": "Button",
             "caption": "Read values",
             "onClick": ""
-        },
+        }
     ]
 }
