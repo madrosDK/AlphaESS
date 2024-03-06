@@ -18,7 +18,7 @@
                     "caption": "Ident",
                     "name": "Ident",
                     "visible": true,
-                    "width": "100px",
+                    "width": "150px",
                     "save": true
                 },
                 {
@@ -30,14 +30,14 @@
                 {
                     "caption": "Function",
                     "name": "Name",
-                    "width": "auto",
+                    "width": "50px",
                     "save": true
                 },
                 {
                     "caption": "Type",
                     "name": "VarType",
                     "visible": true,
-                    "width": "auto",
+                    "width": "100px",
                     "save": true
                 },
                 {
