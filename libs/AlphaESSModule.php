@@ -26,8 +26,8 @@ eval('declare(strict_types=1);namespace AlphaESS {?>' . file_get_contents(__DIR_
  */
 class AlphaESS extends IPSModule
 {
-    use \BGETech\SemaphoreHelper;
-    use \BGETech\VariableProfileHelper;
+    use \AlphaESS\SemaphoreHelper;
+    use \AlphaESS\VariableProfileHelper;
     const Swap = true;
     const PREFIX = '';
     /**
