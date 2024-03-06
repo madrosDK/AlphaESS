@@ -17,8 +17,8 @@
                 {
                     "caption": "Ident",
                     "name": "Ident",
-                    "visible": false,
-                    "width": "10px",
+                    "visible": true,
+                    "width": "auto",
                     "save": true
                 },
                 {
@@ -37,14 +37,14 @@
                     "caption": "Type",
                     "name": "VarType",
                     "visible": true,
-                    "width": "10px",
+                    "width": "auto",
                     "save": true
                 },
                 {
                     "caption": "Profile",
                     "name": "Profile",
                     "visible": true,
-                    "width": "10px",
+                    "width": "auto",
                     "save": true
                 },
                 {
@@ -58,14 +58,14 @@
                     "caption": "Function",
                     "name": "Function",
                     "visible": true,
-                    "width": "10px",
+                    "width": "auto",
                     "save": true
                 },
                 {
                     "caption": "Quantity",
                     "name": "Quantity",
                     "visible": true,
-                    "width": "10px",
+                    "width": "auto",
                     "save": true
                 },
                 {
