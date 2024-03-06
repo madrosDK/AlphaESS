@@ -11,8 +11,8 @@
             "type": "List",
             "name": "Variables",
             "caption": "",
-            "add": true,
-            "delete": true,  
+            "add": false,
+            "delete": true,
             "columns": [
                 {
                     "caption": "Ident",
@@ -36,14 +36,14 @@
                 {
                     "caption": "Type",
                     "name": "VarType",
-                    "visible": false,
+                    "visible": true,
                     "width": "0px",
                     "save": true
                 },
                 {
                     "caption": "Profile",
                     "name": "Profile",
-                    "visible": false,
+                    "visible": true,
                     "width": "0px",
                     "save": true
                 },
@@ -57,14 +57,14 @@
                 {
                     "caption": "Function",
                     "name": "Function",
-                    "visible": false,
+                    "visible": true,
                     "width": "0px",
                     "save": true
                 },
                 {
                     "caption": "Quantity",
                     "name": "Quantity",
-                    "visible": false,
+                    "visible": true,
                     "width": "0px",
                     "save": true
                 },
