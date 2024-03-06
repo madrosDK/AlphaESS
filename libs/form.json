@@ -11,8 +11,8 @@
             "type": "List",
             "name": "Variables",
             "caption": "",
-            "add": false,
-            "delete": false,
+            "add": true,  #false
+            "delete": true,  #false
             "columns": [
                 {
                     "caption": "Ident",
