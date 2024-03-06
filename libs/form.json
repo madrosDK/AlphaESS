@@ -30,7 +30,7 @@
                 {
                     "caption": "Function",
                     "name": "Name",
-                    "width": "50px",
+                    "width": "200px",
                     "save": true
                 },
                 {
@@ -44,7 +44,7 @@
                     "caption": "Profile",
                     "name": "Profile",
                     "visible": true,
-                    "width": "auto",
+                    "width": "200px",
                     "save": true
                 },
                 {
@@ -58,14 +58,14 @@
                     "caption": "Function",
                     "name": "Function",
                     "visible": true,
-                    "width": "auto",
+                    "width": "50px",
                     "save": true
                 },
                 {
                     "caption": "Quantity",
                     "name": "Quantity",
                     "visible": true,
-                    "width": "auto",
+                    "width": "50px",
                     "save": true
                 },
                 {
