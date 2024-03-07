@@ -1,0 +1,12 @@
+{
+    "id": "{29DA5F74-9C1E-5FAA-8972-A62AF0E1E489}",
+    "name": "ABBEnergyMeter",
+    "author": "Tobias Ohrdes",
+    "url": "",
+    "compatibility": {
+        "version": "5.5"
+    },
+    "version": "1.1",
+    "build": 0,
+    "date": 0
+}

@@ -1,0 +1,152 @@
+{
+    "elements": [
+        {
+            "name": "Interval",
+            "type": "IntervalBox",
+            "caption": "seconds"
+        },
+        {
+            "type": "List",
+            "name": "Variables",
+            "rowCount": 20,
+            "add": false,
+            "delete": false,
+            "sort": {
+                "column": "ReadAddress",
+                "direction": "ascending"
+            },
+            "columns": [
+                {
+                    "label": "Ident",
+                    "name": "Ident",
+                    "width": "0px",
+                    "add": 0,
+                    "visible": false,
+                    "save": true
+                },
+                {
+                    "label": "Quantity",
+                    "name": "Quantity",
+                    "width": "auto",
+                    "add": "",
+                    "visible": false,
+                    "save": true
+                },
+                {
+                    "label": "Channel",
+                    "name": "Channel",
+                    "width": "auto",
+                    "add": "",
+                    "visible": false,
+                    "save": true
+                },
+                {
+                    "label": "Name",
+                    "name": "VariableName",
+                    "width": "auto",
+                    "add": "",
+                    "save": true
+                },
+                {
+                    "label": "Unit",
+                    "name": "Unit",
+                    "width": "100px",
+                    "add": "",
+                    "save": true
+                },
+                {
+                    "label": "Register",
+                    "name": "ReadAddress",
+                    "width": "100px",
+                    "visible": true,
+                    "save": true
+                },
+                {
+                    "label": "Variable",
+                    "name": "ReadOut",
+                    "width": "75px",
+                    "add": false,
+                    "edit": {
+                        "type": "CheckBox",
+                        "caption": "Read"
+                    }
+                },
+                {
+                    "label": "DataType",
+                    "name": "DataType",
+                    "width": "auto",
+                    "visible": false,
+                    "save": true
+                },
+                {
+                    "label": "ReadFunctionCode",
+                    "name": "ReadFunctionCode",
+                    "width": "auto",
+                    "add": 0,
+                    "visible": false,
+                    "save": true
+                },
+                {
+                    "label": "WriteFunctionCode",
+                    "name": "WriteFunctionCode",
+                    "width": "auto",
+                    "add": 0,
+                    "visible": false,
+                    "save": true
+                },
+                {
+                    "label": "WriteAddress",
+                    "name": "WriteAddress",
+                    "width": "auto",
+                    "visible": false,
+                    "save": true
+                },
+                {
+                    "label": "Factor",
+                    "name": "Factor",
+                    "width": "auto",
+                    "add": 0,
+                    "visible": false,
+                    "save": true
+                },
+                {
+                    "label": "Size",
+                    "name": "Size",
+                    "width": "auto",
+                    "add": 0,
+                    "visible": false,
+                    "save": true
+                },
+                {
+                    "label": "VariableType",
+                    "name": "VariableType",
+                    "width": "auto",
+                    "add": 0,
+                    "visible": false,
+                    "save": true
+                },
+                {
+                    "label": "VariableProfile",
+                    "name": "VariableProfile",
+                    "width": "auto",
+                    "add": 0,
+                    "visible": false,
+                    "save": true
+                }
+            ]
+        },
+        {
+            "name": "ReadBlock",
+            "type": "CheckBox",
+            "caption": "Blockwise readout",
+            "value": true
+        }
+    ],
+    "actions": [
+        {
+            "type": "Button",
+            "caption": "Read values",
+            "onClick": ""
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+{
+    "translations": {
+        "de": {
+            "Blockwise readout": "Blockweise auslesen",
+            "seconds": "Sekunden",
+            "Read values": "Werte auslesen",
+            "Power": "Leistung",
+            "Reactive Power": "Blindleistung",
+            "Apparent Power": "Scheinleistung",
+            "Voltage": "Spannung",
+            "Current": "Strom",
+            "Frequency": "Frequenz",
+            "Power Factor": "Leistungsfaktor",
+            "Phase Angle": "Phasenwinkel",
+            "Energy": "Energie",
+            "Reactive Energy": "Blindenergie",
+            "Apparent Energy": "Scheinenergie",
+            "Total": "Gesamt",
+            "Total Import": "Gesamt Import",
+            "Total Export": "Gesamt Export",
+            "Total Net": "Gesamt Netto",
+            "Total Import Tariff 1": "Gesamt Import Tarif 1",
+            "Total Import Tariff 2": "Gesamt Import Tarif 2",
+            "Total Import Tariff 3": "Gesamt Import Tarif 3",
+            "Total Import Tariff 4": "Gesamt Import Tarif 4",
+            "Total Export Tariff 1": "Gesamt Export Tarif 1",
+            "Total Export Tariff 2": "Gesamt Export Tarif 2",
+            "Total Export Tariff 3": "Gesamt Export Tarif 3",
+            "Total Export Tariff 4": "Gesamt Export Tarif 4"
+        }
+    }
+}
