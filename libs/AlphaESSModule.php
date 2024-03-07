@@ -55,7 +55,7 @@ class AlphaESS extends IPSModule
             ];
         }
         $this->RegisterPropertyString('Variables', json_encode($Variables));
-        $this->RegisterTimer('UpdateTimer', 0, static::'ModBus_RequestRead($_IPS["TARGET"]);');
+        $this->RegisterTimer('UpdateTimer', 0, static::ModBus_RequestRead($_IPS["TARGET"]););
     }
 
     public function GetConfigurationForm()
