@@ -77,6 +77,40 @@ class AlphaESS extends IPSModule
         return $Result;
     }
 
+    private function ReadData()
+    {
+        $Variables = json_decode($this->ReadPropertyString('Variables'), true);
+        foreach ($Variables as $Variable) {
+            if (!$Variable['Keep']) {
+                continue;
+            }
+            $SendData['DataID'] = '{E310B701-4AE7-458E-B618-EC13A1A6F6A8}';
+            $SendData['Function'] = $Variable['Function'];
+            $SendData['Address'] = $Variable['Address'];
+            $SendData['Quantity'] = $Variable['Quantity'];
+            $SendData['Data'] = '';
+            set_error_handler([$this, 'ModulErrorHandler']);
+            $ReadData = $this->SendDataToParent(json_encode($SendData));
+            restore_error_handler();
+            if ($ReadData === false) {
+                return false;
+            }
+            $ReadValue = substr($ReadData, 2);
+            $this->SendDebug($Variable['Name'] . ' RAW', $ReadValue, 1);
+            if (static::Swap) {
+                $ReadValue = strrev($ReadValue);
+            }
+            $Value = $this->ConvertValue($Variable, $ReadValue);
+            if ($Value === null) {
+                $this->LogMessage(sprintf($this->Translate('Combination of type and size of value (%s) not supported.'), $Variable['Name']), KL_ERROR);
+                continue;
+            }
+            $this->SendDebug($Variable['Name'], $Value, 0);
+            $this->SetValueExt($Variable, $Value);
+        }
+        return true;
+    }
+
     public function GetConfigurationForm()
     {
         $Form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
