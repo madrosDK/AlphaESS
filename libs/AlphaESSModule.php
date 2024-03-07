@@ -2,129 +2,461 @@
 
 declare(strict_types=1);
 
-/*
- * @addtogroup bgetech
- * @{
- *
- * @package       BGETech
- * @file          module.php
- * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2022 Michael Tröger
- * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       3.51
- *
- */
-require_once __DIR__ . '/SemaphoreHelper.php';  // diverse Klassen
-eval('declare(strict_types=1);namespace AlphaESS {?>' . file_get_contents(__DIR__ . '/helper/VariableProfileHelper.php') . '}');
-
-/**
- * BGETech ist die Basisklasse für alle Energie-Zähler der Firma B+G E-Tech
- * Erweitert ipsmodule.
- * @property array $Variables
- * @method void RegisterProfileInteger(string $Name, string $Icon, string $Prefix, string $Suffix, int $MinValue, int $MaxValue, float $StepSize)
- * @method void RegisterProfileFloat(string $Name, string $Icon, string $Prefix, string $Suffix, float $MinValue, float $MaxValue, float $StepSize, int $Digits)
- */
-
 
 class AlphaESS extends IPSModule
 {
-    use \AlphaESS\SemaphoreHelper;
-    use \AlphaESS\VariableProfileHelper;
-    const Swap = true;
-    const PREFIX = '';
-    /**
-     * Interne Funktion des SDK.
-     */
+
+    const Timeout = 1000;
+    const Sleep = 200;
+    const Swap = false;
+
+
+    public function __construct($InstanceID)
+    {
+        parent::__construct($InstanceID);
+    }
+
     public function Create()
     {
         parent::Create();
-        $this->ConnectParent('{A5F663AB-C400-4FE5-B207-4D67CC030564}');
-        $this->RegisterPropertyInteger('Interval', 0);
-        $Variables = [];
-        foreach (static::$Variables as $Pos => $Variable) {
-            $Variables[] = [
-                'Ident'    => str_replace(' ', '', $Variable[0]),
-                'Name'     => $this->Translate($Variable[0]),
-                'VarType'  => $Variable[1],
-                'Profile'  => $Variable[2],
-                'Address'  => $Variable[3],
-                'Function' => $Variable[4],
-                'Quantity' => $Variable[5],
-                'Pos'      => $Pos + 1,
-                'Keep'     => $Variable[6]
-            ];
+
+        $this->RequireParent("{A5F663AB-C400-4FE5-B207-4D67CC030564}");
+
+        $this->RegisterProfile(2, "kVarh", "Electricity", "", " kVarh", 0, 0, 0, 2);
+        $this->RegisterProfile(2, "kVAh", "Electricity", "", " kVAh", 0, 0, 0, 2);
+        $this->RegisterProfile(2, "W", "Electricity", "", " VA", 0, 0, 0, 2);
+        $this->RegisterProfile(2, "VA", "Electricity", "", " VA", 0, 0, 0, 2);
+        $this->RegisterProfile(2, "Var", "Electricity", "", " Var", 0, 0, 0, 2);
+        $this->RegisterProfile(2, "kg", "Gauge", "", " kg", 0, 0, 0, 2);
+        $this->RegisterProfile(2, "PhaseAngle", "Speedo", "", "°", -180, 180, 0, 2);
+
+        $this->RegisterPropertyInteger("Interval", 0);
+        $this->RegisterTimer("UpdateTimer", 0, static::PREFIX ."_RequestRead(\$_IPS['TARGET']);");
+
+        $variables = $this->GetDeviceTemplate( static::DeviceIdent );
+
+        foreach ($variables as $index => $value)
+        {
+            $variables[$index]['VariableName'] = $this->Translate ( $variables[$index]['Quantity'] ) ." (". $this->Translate ( $variables[$index]['Channel'] ) .")";
         }
-        $this->RegisterPropertyString('Variables', json_encode($Variables));
-        $this->RegisterTimer('UpdateTimer', 0, static::PREFIX . '_RequestRead($_IPS["TARGET"]);');
+
+	    $this->RegisterPropertyString("Variables", json_encode ( $variables ) );
+
+        $this->RegisterPropertyBoolean("ReadBlock", true);
     }
 
-    public function RequestRead()
+
+    public function ApplyChanges()
     {
-        $Gateway = IPS_GetInstance($this->InstanceID)['ConnectionID'];
-        if ($Gateway == 0) {
-            return false;
+        parent::ApplyChanges();
+
+        $variables = json_decode ( $this->ReadPropertyString("Variables"), true);
+
+        foreach ($variables as $i=>$value)
+        {
+            $this->MaintainVariable($value['Ident'], $value['VariableName'], $value['VariableType'], $value['VariableProfile'], $value['ReadAddress'], $value['ReadOut']);
         }
-        $IO = IPS_GetInstance($Gateway)['ConnectionID'];
-        if ($IO == 0) {
-            return false;
-        }
-        if (!$this->lock($IO)) {
-            return false;
-        }
-        $Result = $this->ReadData();
-        //IPS_Sleep(333);
-        $this->unlock($IO);
-        return $Result;
+
+        $this->MaintainVariable("ERROR__CONNECTION", "Error Connection",0, "~Alert", 1000, true);
+
+        if ($this->ReadPropertyInteger("Interval") > 0)
+            $this->SetTimerInterval("UpdateTimer", $this->ReadPropertyInteger("Interval") * 1000);
+        else
+            $this->SetTimerInterval("UpdateTimer", 0);
     }
 
-    private function ReadData()
+    // Configuration for ModBus Gateway
+    public function GetConfigurationForParent()
     {
-        $Variables = json_decode($this->ReadPropertyString('Variables'), true);
-        foreach ($Variables as $Variable) {
-            if (!$Variable['Keep']) {
-                continue;
-            }
-            $SendData['DataID'] = '{E310B701-4AE7-458E-B618-EC13A1A6F6A8}';
-            $SendData['Function'] = $Variable['Function'];
-            $SendData['Address'] = $Variable['Address'];
-            $SendData['Quantity'] = $Variable['Quantity'];
-            $SendData['Data'] = '';
-            set_error_handler([$this, 'ModulErrorHandler']);
-            $ReadData = $this->SendDataToParent(json_encode($SendData));
-            restore_error_handler();
-            if ($ReadData === false) {
-                return false;
-            }
-            $ReadValue = substr($ReadData, 2);
-            $this->SendDebug($Variable['Name'] . ' RAW', $ReadValue, 1);
-            if (static::Swap) {
-                $ReadValue = strrev($ReadValue);
-            }
-            $Value = $this->ConvertValue($Variable, $ReadValue);
-            if ($Value === null) {
-                $this->LogMessage(sprintf($this->Translate('Combination of type and size of value (%s) not supported.'), $Variable['Name']), KL_ERROR);
-                continue;
-            }
-            $this->SendDebug($Variable['Name'], $Value, 0);
-            $this->SetValueExt($Variable, $Value);
-        }
-        return true;
+        $config["SwapWords"] = static::Swap;
+        return json_encode($config);
     }
 
     public function GetConfigurationForm()
     {
         $Form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
-        //$Form['actions'][0]['onClick'] = static::PREFIX . '_RequestRead($id);';
-        if (count(static::$Variables) == 1) {
-            unset($Form['elements'][1]);
-        }
+        $Form['actions'][0]['onClick'] = static::PREFIX . '_RequestRead($id);';
         return json_encode($Form);
     }
 
-    protected function ModulErrorHandler($errno, $errstr)
+
+    public function RequestRead()
     {
-        $this->SendDebug('ERROR', utf8_decode($errstr), 0);
-        echo $errstr;
+
+        $startTime = microtime(true);
+
+        $GatewayID = IPS_GetInstance($this->InstanceID)['ConnectionID'];
+
+        $Gateway = IPS_GetInstance($GatewayID);
+        if ($Gateway['InstanceStatus'] != 102)
+        {
+            SetValue($this->GetIDForIdent('ERROR__CONNECTION'), true);
+            return false;
+        }
+
+
+        if ($Gateway['ConnectionID'] == 0)
+        {
+            SetValue($this->GetIDForIdent('ERROR__CONNECTION'), true);
+            return false;
+        }
+
+        $IO = IPS_GetInstance($Gateway['ConnectionID']);
+        $IOID = $IO['InstanceID'];
+
+        if ($IO['InstanceStatus'] != 102)
+        {
+            SetValue($this->GetIDForIdent('ERROR__CONNECTION'), true);
+            return false;
+        }
+
+        if (!$this->lock($IOID, static::Timeout))
+        {
+            SetValue($this->GetIDForIdent('ERROR__CONNECTION'), true);
+            return false;
+        }
+
+        $result = $this->ReadData();
+
+        IPS_Sleep( static::Sleep);
+
+        $this->unlock($IOID);
+
+        $time =  microtime(true) - $startTime;
+        $this->SendDebug('ReadOut Time', $time, 0);
+
+        SetValue($this->GetIDForIdent('ERROR__CONNECTION'), !$result);
+
+        if ($result === false)
+        {
+            $this->SetStatus(200);
+            return false;
+        }
+
+        $this->SetStatus(102);
+        return true;
     }
 
+    private function ReadData()
+    {
+
+        if ( $this->ReadPropertyBoolean("ReadBlock") )
+        {
+
+            $ModBusRegister = array();
+            $variables = json_decode ( $this->ReadPropertyString("Variables"), true );
+
+            foreach ($variables as $value)
+            {
+                $ModBusRegister[$value['ReadAddress']] = $value;
+            }
+
+            $RegisterSort = array();
+
+            foreach ($ModBusRegister as $i=>$row)
+            {
+                $RegisterSort[(int)$row['ReadFunctionCode'] ][(int) $row['ReadAddress']] = $row;
+            }
+
+            $Blocks = array();
+            $i = 0;
+            foreach ($RegisterSort as $FunctionCode => $Registers)
+            {
+
+                $StartAddress = false;
+                $LastAddress = false;
+                $BlockRegisters = array();
+
+                foreach ($Registers as $Register)
+                {
+                    if ( $Register['ReadOut'] == true)
+                    {
+                        $EndAddress = $Register['ReadAddress'] + $Register['Size']-1;
+                        if ($StartAddress === false)
+                        {
+                            $StartAddress = $Register['ReadAddress'];
+                        }
+                        if ($LastAddress === false)
+                        {
+                            $LastAddress = $EndAddress;
+                        }
+
+
+                        if ( $EndAddress > ($StartAddress + 124) )
+                        {
+                            $Blocks[$i]['ReadFunctionCode'] = $FunctionCode;
+                            $Blocks[$i]['Size'] = $LastAddress - $StartAddress + 1;
+                            $Blocks[$i]['ReadAddress'] = $StartAddress;
+                            $Blocks[$i]['Registers'] = $BlockRegisters;
+                            $BlockRegisters = array();
+                            $StartAddress = $Register['ReadAddress'];
+                            $LastAddress = $EndAddress;
+                            $i++;
+                        } else
+                        {
+                            $LastAddress = $EndAddress;
+                        }
+                        $BlockRegisters[] = $Register;
+                    }
+                }
+                $Blocks[$i]['ReadFunctionCode'] = $FunctionCode;
+                $Blocks[$i]['Size'] = $LastAddress - $StartAddress + 1;
+                $Blocks[$i]['ReadAddress'] = $StartAddress;
+                $Blocks[$i]['Registers'] = $BlockRegisters;
+            }
+
+
+            foreach ($Blocks as $i=>$row)
+            {
+
+                $result = $this->SendDataToParent(json_encode(Array("DataID" => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", "Function" => (int)$row['ReadFunctionCode'], "Address" => (int) $row['ReadAddress'], "Quantity" => (int) $row['Size'], "Data" => "")));
+
+                if ($result === false)
+                {
+                    return false;
+
+                } else
+                {
+                    $result = substr($result, 2);
+
+                    foreach ($row['Registers'] as $register)
+                    {
+                        $start = ($register['ReadAddress'] - $row['ReadAddress']) * 2;
+                        $length = ($register['Size']) * 2;
+                        $value = $this->decode_binary_string(substr($result, $start, $length), $register['DataType'] ); //, $device['config']['SwapWords']
+
+                        if ($value !== false)
+                        {
+                        if ((float) $register['Factor'] != 0)
+                        {
+                            $value = $value * (float)$register['Factor'];
+                        }
+
+                        $this->SetValueExt( $register, $value);
+                        }
+
+                    }
+
+                }
+            }
+
+        }
+        else
+        {
+
+            $ModBusRegister = json_decode($this->ReadPropertyString('Variables'), true);
+
+            foreach ($ModBusRegister as $i=>$row)
+            {
+                if ((boolean)$ModBusRegister[$i]['ReadOut'] == true)
+                {
+                    $result = $this->SendDataToParent(json_encode(Array("DataID" => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", "Function" => (int)$row['ReadFunctionCode'], "Address" => (int) $row['ReadAddress'], "Quantity" => (int) $row['Size'], "Data" => "")));
+
+                    if ($result === false)
+                    {
+                        return false;
+
+                    } else
+                    {
+                        if (strlen(str_replace('f', '', bin2hex(substr($result, 2))  )) == 0)
+                        {
+                            $value = 0;
+                        }
+
+                        $value = $this->decode_binary_string(substr($result, 2),$row['DataType'] );
+
+                        if ($value !== false)
+                        {
+                        if ((float) $row['Factor'] != 0)
+                        {
+                            $value = $value * (float)$row['Factor'];
+                        }
+
+                        $this->SetValueExt($row, $value);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        return true;
+
+    }
+
+    /**
+     * Setzte eine IPS-Variableauf den Wert von $value.
+     *
+     * @param array $Variable Statusvariable
+     * @param mixed $Value    Neuer Wert der Statusvariable.
+     */
+    protected function SetValueExt($Variable, $Value)
+    {
+        $id = @$this->GetIDForIdent($Variable['Ident']);
+        if ($id == false) {
+            $this->MaintainVariable($Variable['Ident'], $Variable['VariableName'], $Variable['VariableType'], $Variable['VariableProfile'], $Variable['ReadAddress'], $Variable['ReadOut']);
+        }
+        $this->SetValue($Variable['Ident'], $Value);
+        return true;
+    }
+
+    private function GetDeviceTemplate( string $deviceIdent )
+    {
+
+        $file = __DIR__ . "/../libs/devices/".$deviceIdent.".json";
+        if (is_file($file))
+        {
+            $info = json_decode(file_get_contents($file), true);
+        }
+        else
+        {
+            $info = false;
+        }
+
+        return $info;
+    }
+
+
+    private function decode_binary_string( $string, $type){
+        $value = 0;
+        $type = strtoupper($type);
+
+        switch ($type)
+        {
+            case 'UINT16':
+                $value = unpack('n', $string)[1];
+
+                if ( bin2hex($string) == 'ffff'){
+                    $value = 0;
+                    return false;
+                }
+                break;
+
+            case 'INT16':
+                $value = unpack('s', strrev($string))[1];
+
+                if ( bin2hex($string) == '8000' ||  bin2hex($string) == '7fff'){
+                    $value = 0;
+                    return false;
+                }
+                break;
+
+            case 'UINT32':
+                $value = unpack('N', $string)[1];
+
+                if ( bin2hex($string) == 'ffffffff'){
+                    $value = 0;
+                    return false;
+                }
+                break;
+
+
+            case 'INT32':
+                $value = unpack('l', strrev($string))[1];
+
+                if ( bin2hex($string) == '80000000' || bin2hex($string) == '7fffffff'){
+                    $value = 0;
+                    return false;
+                }
+                break;
+
+            case 'UINT64':
+                $value = unpack('N', substr($string, 4))[1];
+
+                if ( bin2hex($string) == 'ffffffffffffffff'){
+                    $value = 0;
+                    return false;
+                }
+
+                break;
+
+            case 'INT64':
+                $value = unpack('l', strrev(substr($string, 4)))[1];
+
+                if ( bin2hex($string) == '7fffffffffffffff'){
+                    $value = 0;
+                    return false;
+                }
+                break;
+
+            case 'FLOAT32':
+                $value = unpack('l', strrev($string))[1];
+
+                $ulong = pack("L", $value);
+
+                $value = unpack("f", $ulong)[1];
+                if ( bin2hex($string) == '7fc00000'){
+                    $value = 0;
+                    return false;
+                }
+                break;
+
+            case 'FLOAT64':
+                $value = unpack('f', substr($string, 4))[1];
+                break;
+
+        }
+
+        return $value;
+    }
+
+    /**
+     * Versucht eine Semaphore zu setzen und wiederholt dies bei Misserfolg bis zu 100 mal.
+     * @param string $ident Ein String der den Lock bezeichnet.
+     * @return boolean TRUE bei Erfolg, FALSE bei Misserfolg.
+     */
+    private function lock($ident, $timeout)
+    {
+
+        if (IPS_SemaphoreEnter('ModBus' . '.' . (string) $ident, $timeout))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Löscht eine Semaphore.
+     * @param string $ident Ein String der den Lock bezeichnet.
+     */
+    private function unlock($ident)
+    {
+        IPS_SemaphoreLeave('ModBus' . '.' . (string) $ident);
+    }
+
+    /**
+     * Erstellt und konfiguriert ein VariablenProfil für den Typ float.
+     *
+     * @param int    $VarTyp   Typ der Variable
+     * @param string $Name     Name des Profils.
+     * @param string $Icon     Name des Icon.
+     * @param string $Prefix   Prefix für die Darstellung.
+     * @param string $Suffix   Suffix für die Darstellung.
+     * @param int    $MinValue Minimaler Wert.
+     * @param int    $MaxValue Maximaler wert.
+     * @param int    $StepSize Schrittweite
+     */
+    protected function RegisterProfile($VarTyp, $Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits = 0)
+    {
+        if (!IPS_VariableProfileExists($Name)) {
+            IPS_CreateVariableProfile($Name, $VarTyp);
+        } else {
+            $profile = IPS_GetVariableProfile($Name);
+            if ($profile['ProfileType'] != $VarTyp) {
+                throw new \Exception('Variable profile type does not match for profile ' . $Name, E_USER_WARNING);
+            }
+        }
+
+        IPS_SetVariableProfileIcon($Name, $Icon);
+        IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
+        switch ($VarTyp) {
+            case VARIABLETYPE_FLOAT:
+                IPS_SetVariableProfileDigits($Name, $Digits);
+                // no break
+            case VARIABLETYPE_INTEGER:
+                IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
+                break;
+        }
+    }
 }
