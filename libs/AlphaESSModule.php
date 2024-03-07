@@ -121,5 +121,10 @@ class AlphaESS extends IPSModule
         return json_encode($Form);
     }
 
+    protected function ModulErrorHandler($errno, $errstr)
+    {
+        $this->SendDebug('ERROR', utf8_decode($errstr), 0);
+        echo $errstr;
+    }
 
 }
