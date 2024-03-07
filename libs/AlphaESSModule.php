@@ -55,7 +55,26 @@ class AlphaESS extends IPSModule
             ];
         }
         $this->RegisterPropertyString('Variables', json_encode($Variables));
-        $this->RegisterTimer('UpdateTimer', 0, ModBus_RequestRead($_IPS["TARGET"]));
+        $this->RegisterTimer('UpdateTimer', 0, static::PREFIX . '_RequestRead($_IPS["TARGET"]);');
+    }
+
+    public function RequestRead()
+    {
+        $Gateway = IPS_GetInstance($this->InstanceID)['ConnectionID'];
+        if ($Gateway == 0) {
+            return false;
+        }
+        $IO = IPS_GetInstance($Gateway)['ConnectionID'];
+        if ($IO == 0) {
+            return false;
+        }
+        if (!$this->lock($IO)) {
+            return false;
+        }
+        $Result = $this->ReadData();
+        //IPS_Sleep(333);
+        $this->unlock($IO);
+        return $Result;
     }
 
     public function GetConfigurationForm()
