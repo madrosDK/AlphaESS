@@ -127,6 +127,7 @@ class AlphaESS extends IPSModule
      *
      * @return bool True wenn Befehl erfolgreich ausgeführt wurde, sonst false.
      */
+/*     auskommentiert 07.03.2024
     public function RequestRead()
     {
         $Gateway = IPS_GetInstance($this->InstanceID)['ConnectionID'];
@@ -145,7 +146,7 @@ class AlphaESS extends IPSModule
         $this->unlock($IO);
         return $Result;
     }
-
+*/
     public function GetConfigurationForm()
     {
         $Form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
@@ -168,6 +169,7 @@ class AlphaESS extends IPSModule
      * @param array $Variable Statusvariable
      * @param mixed $Value    Neuer Wert der Statusvariable.
      */
+/*     auskommentiert 07.03.2024
     protected function SetValueExt($Variable, $Value)
     {
         $id = @$this->GetIDForIdent($Variable['Ident']);
@@ -211,7 +213,7 @@ class AlphaESS extends IPSModule
         }
         return true;
     }
-
+      
     private function ConvertValue(array $Variable, string $Value)
     {
         switch ($Variable['VarType']) {
@@ -247,4 +249,5 @@ class AlphaESS extends IPSModule
         }
         return null;
     }
+            */
 }
