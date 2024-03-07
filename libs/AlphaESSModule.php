@@ -58,4 +58,15 @@ class AlphaESS extends IPSModule
         $this->RegisterTimer('UpdateTimer', 0, static::'ModBus_RequestRead($_IPS["TARGET"]);');
     }
 
+    public function GetConfigurationForm()
+    {
+        $Form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
+        //$Form['actions'][0]['onClick'] = static::PREFIX . '_RequestRead($id);';
+        if (count(static::$Variables) == 1) {
+            unset($Form['elements'][1]);
+        }
+        return json_encode($Form);
+    }
+
+
 }
