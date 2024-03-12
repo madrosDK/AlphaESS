@@ -67,7 +67,24 @@ class AlphaESS extends IPSModule
                 $NewPos = $Variable['Pos'];
               } //bis hier
         }
-
+        if (count($NewRows) != 0) { //neu ab hier
+            foreach ($NewRows as $NewVariable) {
+                $Variables[] = [
+                    'Ident'    => str_replace(' ', '', $NewVariable[0]),
+                    'Name'     => $this->Translate($NewVariable[0]),
+                    'VarType'  => $NewVariable[1],
+                    'Profile'  => $NewVariable[2],
+                    'Address'  => $NewVariable[3],
+                    'Function' => $NewVariable[4],
+                    'Quantity' => $NewVariable[5],
+                    'Pos'      => ++$NewPos,
+                    'Keep'     => $NewVariable[6]
+                ];
+            }
+            IPS_SetProperty($this->InstanceID, 'Variables', json_encode($Variables));
+            IPS_ApplyChanges($this->InstanceID);
+            return;
+        } //bis hier
         $this->MaintainVariable("ERROR__CONNECTION", "Error Connection",0, "~Alert", 1000, true);
 
         if ($this->ReadPropertyInteger("Interval") > 0)
