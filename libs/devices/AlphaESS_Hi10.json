@@ -14,5 +14,37 @@
         "Factor": 1,
         "VariableType": "2",
         "VariableProfile": "~Watt.14490"
+    },
+    {
+        "Quantity": "Total energy feed to grid",
+        "Channel": "GRID",
+        "Unit": "W",
+        "Ident": "Total_energy_feed_grid",
+        "ReadOut": true,
+        "DataType": "UINT32",
+        "Size": 2,
+        "ReadFunctionCode": 3,
+        "ReadAddress": 16,
+        "WriteFunctionCode": 0,
+        "WriteAddress": 0,
+        "Factor": 0.01,
+        "VariableType": "2",
+        "VariableProfile": "~Electricity"
+    },
+    {
+        "Quantity": "Total energy consume from grid",
+        "Channel": "GRID",
+        "Unit": "W",
+        "Ident": "Total_energy_consume_grid",
+        "ReadOut": true,
+        "DataType": "UINT32",
+        "Size": 2,
+        "ReadFunctionCode": 3,
+        "ReadAddress": 18,
+        "WriteFunctionCode": 0,
+        "WriteAddress": 0,
+        "Factor": 0.01,
+        "VariableType": "2",
+        "VariableProfile": "~Electricity"
     }
 ]

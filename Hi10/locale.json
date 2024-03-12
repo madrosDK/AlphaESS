@@ -4,7 +4,6 @@
             "Blockwise readout": "Blockweise auslesen",
             "seconds": "Sekunden",
             "Read values": "Werte auslesen",
-            "Power": "Leistung",
             "Reactive Power": "Blindleistung",
             "Apparent Power": "Scheinleistung",
             "Voltage": "Spannung",
@@ -26,7 +25,11 @@
             "Total Export Tariff 1": "Gesamt Export Tarif 1",
             "Total Export Tariff 2": "Gesamt Export Tarif 2",
             "Total Export Tariff 3": "Gesamt Export Tarif 3",
-            "Total Export Tariff 4": "Gesamt Export Tarif 4"
+            "Total Export Tariff 4": "Gesamt Export Tarif 4",
+            "Power": "Leistung",
+            "Total energy feed to grid": "Gesamte Netzeinspeisung",
+            "Total energy consume from grid": "Gesamter Netzbezug"
+
         }
     }
 }
