@@ -50,7 +50,7 @@ class AlphaESS extends IPSModule
     {
         parent::ApplyChanges();
 
-        $NewRows = static::$Variables; //NEU
+        $NewRows = static::$variables; //NEU
         $NewPos = 0;  //NEU
 
         $variables = json_decode ( $this->ReadPropertyString("Variables"), true);
@@ -59,17 +59,17 @@ class AlphaESS extends IPSModule
         {
             $this->MaintainVariable($value['Ident'], $value['VariableName'], $value['VariableType'], $value['VariableProfile'], $value['ReadAddress'], $value['ReadOut']);
             foreach ($NewRows as $Index => $Row) {    //NEU ab hier
-              if ($Variable['Ident'] == str_replace(' ', '', $Row[0])) {
+              if ($variable['Ident'] == str_replace(' ', '', $Row[0])) {
                 unset($NewRows[$Index]);
               }
             }
-            if ($NewPos < $Variable['Pos']) {
-                $NewPos = $Variable['Pos'];
+            if ($NewPos < $variable['Pos']) {
+                $NewPos = $variable['Pos'];
               } //bis hier
         }
         if (count($NewRows) != 0) { //neu ab hier
             foreach ($NewRows as $NewVariable) {
-                $Variables[] = [
+                $variables[] = [
                     'Ident'    => str_replace(' ', '', $NewVariable[0]),
                     'Name'     => $this->Translate($NewVariable[0]),
                     'VarType'  => $NewVariable[1],
@@ -81,7 +81,7 @@ class AlphaESS extends IPSModule
                     'Keep'     => $NewVariable[6]
                 ];
             }
-            IPS_SetProperty($this->InstanceID, 'Variables', json_encode($Variables));
+            IPS_SetProperty($this->InstanceID, 'Variables', json_encode($variables));
             IPS_ApplyChanges($this->InstanceID);
             return;
         } //bis hier
