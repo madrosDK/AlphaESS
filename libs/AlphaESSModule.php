@@ -66,8 +66,8 @@ class AlphaESS extends IPSModule
               }
             }
             */
-            if ($NewPos < $value['Pos']) {
-                $NewPos = $value['Pos'];
+            if ($NewPos < $index {
+                $NewPos = $index;
               } //bis hier
         }
         if (count($NewRows) != 0) { //neu ab hier
