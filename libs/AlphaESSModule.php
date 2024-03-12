@@ -50,7 +50,7 @@ class AlphaESS extends IPSModule
     {
         parent::ApplyChanges();
 
-        $NewRows = static::$value; //NEU
+        $NewRows = $this->GetDeviceTemplate( static::DeviceIdent ); //NEU
         $NewPos = 0;  //NEU
 
         $variables = json_decode ( $this->ReadPropertyString("Variables"), true);
