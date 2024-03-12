@@ -55,13 +55,13 @@ class AlphaESS extends IPSModule
         $NewRows = $variables; //$this->GetDeviceTemplate( static::DeviceIdent ); //NEU
         $NewPos = 0;  //NEU
 
-        $variables = json_decode ( $this->ReadPropertyString("Variables"), true);
+        //$variables = json_decode ( $this->ReadPropertyString("Variables"), true);
 
         foreach ($variables as $i=>$value)
         {
             $this->MaintainVariable($value['Ident'], $value['VariableName'], $value['VariableType'], $value['VariableProfile'], $value['ReadAddress'], $value['ReadOut']);
             foreach ($NewRows as $Index => $Row) {    //NEU ab hier
-              if ($value['Ident'] == str_replace(" ", "", $Row[0])) {
+              if ($value['Ident']->count() > 0);// == str_replace(" ", "", $Row[0])) {
                 unset($NewRows[$Index]);
               }
             }
