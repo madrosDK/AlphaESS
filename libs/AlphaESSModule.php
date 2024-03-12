@@ -50,11 +50,22 @@ class AlphaESS extends IPSModule
     {
         parent::ApplyChanges();
 
+        $NewRows = static::$Variables; //NEU
+        $NewPos = 0;  //NEU
+
         $variables = json_decode ( $this->ReadPropertyString("Variables"), true);
 
         foreach ($variables as $i=>$value)
         {
             $this->MaintainVariable($value['Ident'], $value['VariableName'], $value['VariableType'], $value['VariableProfile'], $value['ReadAddress'], $value['ReadOut']);
+            foreach ($NewRows as $Index => $Row) {    //NEU ab hier
+              if ($Variable['Ident'] == str_replace(' ', '', $Row[0])) {
+                unset($NewRows[$Index]);
+              }
+            }
+            if ($NewPos < $Variable['Pos']) {
+                $NewPos = $Variable['Pos'];
+              } //bis hier
         }
 
         $this->MaintainVariable("ERROR__CONNECTION", "Error Connection",0, "~Alert", 1000, true);
