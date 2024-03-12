@@ -66,7 +66,7 @@ class AlphaESS extends IPSModule
               }
             }
             */
-            if ($NewPos < $variables[$index]['VariableName'] {
+            if ($NewPos < $variables[$index]['VariableName']) {
                 $NewPos = $variables[$index]['VariableName'];
               } //bis hier
         }
