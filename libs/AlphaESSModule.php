@@ -59,7 +59,7 @@ class AlphaESS extends IPSModule
         {
             $this->MaintainVariable($value['Ident'], $value['VariableName'], $value['VariableType'], $value['VariableProfile'], $value['ReadAddress'], $value['ReadOut']);
             foreach ($NewRows as $Index => $Row) {    //NEU ab hier
-              if ($value['Ident']->isNotEmpty()) {
+              if ($value['Ident'] == str_replace(" ", "", $Row[0])) {
                 unset($NewRows[$Index]);
               }
             }
@@ -69,17 +69,7 @@ class AlphaESS extends IPSModule
         }
         if (count($NewRows) != 0) { //neu ab hier
             foreach ($NewRows as $NewVariable) {
-                $variables[] = [
-                    'Ident'    => str_replace(' ', '', $NewVariable[0]),
-                    'Name'     => $this->Translate($NewVariable[0]),
-                    'VarType'  => $NewVariable[1],
-                    'Profile'  => $NewVariable[2],
-                    'Address'  => $NewVariable[3],
-                    'Function' => $NewVariable[4],
-                    'Quantity' => $NewVariable[5],
-                    'Pos'      => ++$NewPos,
-                    'Keep'     => $NewVariable[6]
-                ];
+              $variables[$index]['VariableName'] = $this->Translate ( $variables[$index]['Quantity'] ) ." (". $this->Translate ( $variables[$index]['Channel'] ) .")";
             }
             IPS_SetProperty($this->InstanceID, 'Variables', json_encode($variables));
             IPS_ApplyChanges($this->InstanceID);
