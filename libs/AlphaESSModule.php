@@ -61,7 +61,7 @@ class AlphaESS extends IPSModule
         {
             $this->MaintainVariable($value['Ident'], $value['VariableName'], $value['VariableType'], $value['VariableProfile'], $value['ReadAddress'], $value['ReadOut']);
             foreach ($NewRows as $Index => $Row) {    //NEU ab hier
-              if ($value['Ident']->count() > 0);// == str_replace(" ", "", $Row[0])) {
+              if ($value['Ident']->count() > 0) { // == str_replace(" ", "", $Row[0])) {
                 unset($NewRows[$Index]);
               }
             }
