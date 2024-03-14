@@ -82,7 +82,7 @@ class AlphaESS extends IPSModule
         } //bis hier
 */
 
-        $this->MaintainVariable("ERROR__CONNECTION", "Error Connection",0, "~Alert", 1000, true);
+        $this->MaintainVariable("ERROR__CONNECTION", "Error Connection",0, "~Alert", 0, true);
 
         if ($this->ReadPropertyInteger("Interval") > 0)
             $this->SetTimerInterval("UpdateTimer", $this->ReadPropertyInteger("Interval") * 1000);
