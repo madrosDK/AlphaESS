@@ -61,7 +61,7 @@ class AlphaESS extends IPSModule
         {
             $this->MaintainVariable($value['Ident'], $value['VariableName'], $value['VariableType'], $value['VariableProfile'], $value['ReadAddress'], $value['ReadOut']);
 
-        } 
+        }
           /*  foreach ($NewRows as $Index => $Row) {    //NEU ab hier
               if ($value['Ident'] == str_replace(" ", "", $Row[0])) {
                 unset($NewRows[$Index]);
@@ -84,7 +84,7 @@ class AlphaESS extends IPSModule
 
 */
 
-        $this->MaintainVariable("ERROR__CONNECTION", "Error Connection",0, "~Alert", 1000, true);
+        $this->MaintainVariable("ERROR__CONNECTION", "Error Connection",0, "~Alert", 0, true);
 
         if ($this->ReadPropertyInteger("Interval") > 0)
             $this->SetTimerInterval("UpdateTimer", $this->ReadPropertyInteger("Interval") * 1000);
