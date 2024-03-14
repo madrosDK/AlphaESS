@@ -52,8 +52,8 @@ class AlphaESS extends IPSModule
 
         $variables = json_decode ( $this->ReadPropertyString("Variables"), true);
 
-        $NewRows = $variables; //$this->GetDeviceTemplate( static::DeviceIdent ); //NEU
-        $NewPos = 0;  //NEU
+      //  $NewRows = $variables; //$this->GetDeviceTemplate( static::DeviceIdent ); //NEU
+      //  $NewPos = 0;  //NEU
 
         //$variables = json_decode ( $this->ReadPropertyString("Variables"), true);
 
@@ -65,10 +65,12 @@ class AlphaESS extends IPSModule
                 unset($NewRows[$Index]);
               }
             }
-            */
+
             if ($NewPos < $variables[$index]['VariableName']) {
                 $NewPos = $variables[$index]['VariableName'];
               } //bis hier
+
+
         }
         if (count($NewRows) != 0) { //neu ab hier
             foreach ($NewRows as $NewVariable) {
@@ -78,6 +80,8 @@ class AlphaESS extends IPSModule
             IPS_ApplyChanges($this->InstanceID);
             return;
         } //bis hier
+*/
+
         $this->MaintainVariable("ERROR__CONNECTION", "Error Connection",0, "~Alert", 1000, true);
 
         if ($this->ReadPropertyInteger("Interval") > 0)
