@@ -26,7 +26,7 @@
             "Total Export Tariff 2": "Gesamt Export Tarif 2",
             "Total Export Tariff 3": "Gesamt Export Tarif 3",
             "Total Export Tariff 4": "Gesamt Export Tarif 4",
-            "Power": "Leistung",
+            "Total active power": "Gesamte Wirkleistung",
             "Total energy feed to grid": "Gesamte Netzeinspeisung",
             "Total energy consume from grid": "Gesamter Netzbezug"
 
