@@ -83,6 +83,8 @@ class AlphaESS extends IPSModule
             return;
 
 */
+        // Reload the form
+        $this->ReloadForm();
 
         $this->MaintainVariable("ERROR__CONNECTION", "Error Connection",0, "~Alert", 0, true);
 
