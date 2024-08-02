@@ -66,12 +66,12 @@ class AlphaESS extends IPSModule
               //if ($value['Ident'] == str_replace(" ", "", $Row[0])) {
                 unset($NewRows[$Index]);
             //  }
-
+            }
 
             if ($NewPos < $variables[$index]['VariableName']) {
                 $NewPos = $variables[$index]['VariableName'];
               } //bis hier
-}
+
 
         //}
         if (count($NewRows) != 0) { //neu ab hier
