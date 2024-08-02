@@ -73,14 +73,14 @@ class AlphaESS extends IPSModule
               } //bis hier
 
 
-        }
+        //}
         if (count($NewRows) != 0) { //neu ab hier
             foreach ($NewRows as $NewVariable) {
               $variables[$index]['VariableName'] = $this->Translate ( $variables[$index]['Quantity'] ) ." (". $this->Translate ( $variables[$index]['Channel'] ) .")";
             }
             IPS_SetProperty($this->InstanceID, 'Variables', json_encode($variables));
             IPS_ApplyChanges($this->InstanceID);
-            //return;
+            return;
           }
 
 
