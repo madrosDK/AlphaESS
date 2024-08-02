@@ -55,7 +55,7 @@ class AlphaESS extends IPSModule
         $NewRows = $variables; //$this->GetDeviceTemplate( static::DeviceIdent ); //NEU
         $NewPos = 0;  //NEU
 
-        $variables = json_decode ( $this->ReadPropertyString("Variables"), true);
+      //  $variables = json_decode ( $this->ReadPropertyString("Variables"), true);
 
         foreach ($variables as $i=>$value)
         {
@@ -63,13 +63,13 @@ class AlphaESS extends IPSModule
 
         }
 
-        $this->ReloadForm();
+      //  $this->ReloadForm();
 
-        /*
+
             foreach ($NewRows as $Index => $Row) {    //NEU ab hier
-              //if ($value['Ident'] == str_replace(" ", "", $Row[0])) {
+              if ($value['Ident'] == str_replace(" ", "", $Row[0])) {
                 unset($NewRows[$Index]);
-            //  }
+              }
             }
 
             if ($NewPos < $variables[$index]['VariableName']) {
@@ -86,7 +86,7 @@ class AlphaESS extends IPSModule
             IPS_ApplyChanges($this->InstanceID);
             return;
           }
-*/
+
 
         $this->MaintainVariable("ERROR__CONNECTION", "Error Connection",0, "~Alert", 0, true);
 
