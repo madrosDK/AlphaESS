@@ -63,8 +63,7 @@ class AlphaESS extends IPSModule
 
         }
 
-        $variables = $this->GetDeviceTemplate( static::DeviceIdent );
-	    $this->ReadPropertyString("Variables", json_encode ( $variables ) );
+
         /*
             foreach ($NewRows as $Index => $Row) {    //NEU ab hier
               //if ($value['Ident'] == str_replace(" ", "", $Row[0])) {
