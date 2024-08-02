@@ -48,15 +48,15 @@
         "VariableProfile": "~Electricity"
     },
     {
-        "Quantity": "Total energy feed to grid",
+        "Quantity": "Total energy feed ",
         "Channel": "GRID",
         "Unit": "W",
-        "Ident": "Total_energy_feed_grid",
+        "Ident": "Total_energy_feed",
         "ReadOut": true,
         "DataType": "UINT32",
         "Size": 2,
         "ReadFunctionCode": 3,
-        "ReadAddress": 16,
+        "ReadAddress": 15,
         "WriteFunctionCode": 0,
         "WriteAddress": 0,
         "Factor": 0.01,
