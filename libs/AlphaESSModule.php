@@ -81,7 +81,7 @@ class AlphaESS extends IPSModule
             IPS_SetProperty($this->InstanceID, 'Variables', json_encode($variables));
             IPS_ApplyChanges($this->InstanceID);
             return;
-
+}
 
 
         $this->MaintainVariable("ERROR__CONNECTION", "Error Connection",0, "~Alert", 0, true);
