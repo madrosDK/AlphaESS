@@ -63,6 +63,7 @@ class AlphaESS extends IPSModule
 
         }
 
+        $this->ReloadForm();
 
         /*
             foreach ($NewRows as $Index => $Row) {    //NEU ab hier
