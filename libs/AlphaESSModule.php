@@ -63,9 +63,9 @@ class AlphaESS extends IPSModule
 
         }
             foreach ($NewRows as $Index => $Row) {    //NEU ab hier
-              if ($value['Ident'] == str_replace(" ", "", $Row[0])) {
+              //if ($value['Ident'] == str_replace(" ", "", $Row[0])) {
                 unset($NewRows[$Index]);
-              }
+              //}
             }
 
             if ($NewPos < $variables[$index]['VariableName']) {
